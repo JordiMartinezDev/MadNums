@@ -3,11 +3,11 @@ using System.Collections;
 
 public class TouchInput : MonoBehaviour {
 
-	public Vector2 TapPosition;
-	public Vector2 TapDirection;
+	public Vector2 tapPosition;
+	public Vector2 tapDirection;
 
-	private bool Swipping;
-
+	private bool swipping;
+	private bool tapping;
 
 
 	void Awake () 
@@ -29,7 +29,7 @@ public class TouchInput : MonoBehaviour {
 	void Update () 
 	{
 
-		if (Input.touchCount > 0 && Swipping == false) 
+		if (Input.touchCount > 0) 
 		{
 			Debug.Log ("Touch Detected");
 			Vector2 deltaPos = Input.GetTouch(0).deltaPosition;
@@ -41,7 +41,7 @@ public class TouchInput : MonoBehaviour {
 
 					//When a touch starts, better to use "end" phase for a single tap tough
 
-					TapPosition = Input.GetTouch(0).position; // used on swipes
+					tapPosition = Input.GetTouch(0).position; // used on swipes
 					Debug.Log (" Simple tap ");
 					
 
@@ -50,50 +50,52 @@ public class TouchInput : MonoBehaviour {
 				case TouchPhase.Canceled:
 				
 					//Canceled touch
-
-					Swipping = false;
+					Debug.Log (" CANCELED ");
+					swipping = false;
 				
 					break;
 
 				case TouchPhase.Ended:
 				
 					//End of a single tap.
-					Swipping = false;
+					Debug.Log ( " ENDED " );
+					swipping = false;
 				
 					break;
 
 				case TouchPhase.Moved:
 				
 					// Swipes 
+
 						
-					if(Swipping == false)
+					if(swipping == false)
 					{	
-				   		TapDirection = TapPosition - Input.GetTouch(0).position ;
+				   		tapDirection = tapPosition - Input.GetTouch(0).position ;
 					
-						if(TapDirection.x > 40)
+						if(tapDirection.x > 40)
 						{
 							Debug.Log ("Swipe Left");
-							SwipeToLeft();
-							Swipping = true;
+							swipeToLeft();
+							swipping = true;
 						}
 
-						if(TapDirection.x < -40)
+						if(tapDirection.x < -40)
 						{
 							Debug.Log ("Swipe Right");
-							SwipeToRight();
-							Swipping = true;
+							swipeToRight();
+							swipping = true;
 						}
-						if(TapDirection.y > 40)
+						if(tapDirection.y > 40)
 						{
 							Debug.Log ("Swipe Down");
-							SwipeToDown();
-							Swipping = true;
+							swipeToDown();
+							swipping = true;
 						}	
-						if(TapDirection.y < -40)
+						if(tapDirection.y < -40)
 						{
 							Debug.Log ("Swipe Up");
-							SwipeToUp();
-							Swipping = true;	
+							swipeToUp();
+							swipping = true;	
 						}
 					}
 					
@@ -112,28 +114,28 @@ public class TouchInput : MonoBehaviour {
 	}
 
 
-	void SwipeToLeft ()
+	void swipeToLeft ()
 	{
 		//Swipping = true; when the animation starts
 
 
 		//Swipping = false; when the animation ends
 	}
-	void SwipeToRight ()
+	void swipeToRight ()
 	{
 		//Swipping = true; when the animation starts
 		
 		
 		//Swipping = false; when the animation ends
 	}
-	void SwipeToDown ()
+	void swipeToDown ()
 	{
 		//Swipping = true; when the animation starts
 		
 		
 		//Swipping = false; when the animation ends
 	}
-	void SwipeToUp ()
+	void swipeToUp ()
 	{
 		//Swipping = true; when the animation starts
 		
