@@ -91,6 +91,10 @@ public class TableBasic : MonoBehaviour
 	{
 		reader = new StreamReader ("Assets/LevelArrangement/LevelArrangement.txt");
 
+		boardTable = new BoardTable ();
+
+		Debug.Log (boardTable);
+
 		LoadLevel (1);
 		LoadLevel (2);
 	}
@@ -100,6 +104,8 @@ public class TableBasic : MonoBehaviour
 		reader.DiscardBufferedData ();
 
 		string tmp = " ";
+
+		tmp = reader.ReadLine();
 
 		for (int i = 0; i < (level - 1) * 5; i++)
 		{
