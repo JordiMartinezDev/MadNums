@@ -14,7 +14,12 @@ public class TouchInput : MonoBehaviour {
 
 	bool left;
 	bool right;
-
+	void OnTriggerEnter2D(Collider2D other){
+		Debug.Log ("POINT ENTER");
+	}
+	void OnTriggerEnter(Collider other){
+		Debug.Log ("POINT ENTER");
+	}
 	void Awake () 
 	{
 		thisObject = gameObject;
