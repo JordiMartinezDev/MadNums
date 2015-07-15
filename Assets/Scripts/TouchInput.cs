@@ -6,12 +6,18 @@ public class TouchInput : MonoBehaviour {
 	public Vector2 tapPosition;
 	public Vector2 tapDirection;
 
+	GameObject thisObject;
+
+	public float speed;
 	private bool swipping;
 	private bool tapping;
 
+	bool left;
+	bool right;
 
 	void Awake () 
 	{
+		thisObject = gameObject;
 		// Check device
 		Debug.Log ("Hello");
 		if (Application.platform == RuntimePlatform.Android) Debug.Log ("Android");
@@ -26,59 +32,62 @@ public class TouchInput : MonoBehaviour {
 	
 	}
 
-	void Update () 
-	{
 
+	public void checkTouch()
+	{
+		Debug.Log ("CHECK TOUCH");
 		if (Input.touchCount > 0) 
 		{
-			Debug.Log ("Touch Detected");
-			Vector2 deltaPos = Input.GetTouch(0).deltaPosition;
-	
-			switch (Input.GetTouch(0).phase)
+			while(Input.touchCount > 0) 
 			{
-
+				Debug.Log ("Touch Detected");
+				//Vector2 deltaPos = Input.GetTouch(0).deltaPosition;
+				
+				switch (Input.GetTouch(0).phase)
+				{
+					
 				case TouchPhase.Began:
-
+					
 					//When a touch starts, better to use "end" phase for a single tap tough
-
+					
 					tapPosition = Input.GetTouch(0).position; // used on swipes
 					Debug.Log (" Simple tap ");
 					
-
+					
 					break;
-
+					
 				case TouchPhase.Canceled:
-				
+					
 					//Canceled touch
 					Debug.Log (" CANCELED ");
 					swipping = false;
-				
+					
 					break;
-
+					
 				case TouchPhase.Ended:
-				
+					
 					//End of a single tap.
 					Debug.Log ( " ENDED " );
 					swipping = false;
-				
+					
 					break;
-
+					
 				case TouchPhase.Moved:
-				
+					
 					// Swipes 
-
-						
+					
+					
 					if(swipping == false)
 					{	
-				   		tapDirection = tapPosition - Input.GetTouch(0).position ;
-					
+						tapDirection = tapPosition - Input.GetTouch(0).position ;
+						
 						if(tapDirection.x > 40)
 						{
 							Debug.Log ("Swipe Left");
 							swipeToLeft();
 							swipping = true;
 						}
-
+						
 						if(tapDirection.x < -40)
 						{
 							Debug.Log ("Swipe Right");
@@ -99,33 +108,44 @@ public class TouchInput : MonoBehaviour {
 						}
 					}
 					
-				
+					
 					break;
-
+					
 				default:
-
+					
 					break;
+				}
+				
 			}
-
 		}
-
-
-
 	}
-
-
 	void swipeToLeft ()
 	{
 		//Swipping = true; when the animation starts
+		int i = 0;
+		while (i == 0) 
+		{
+			if (transform.position.x > 200) {
+				left = true;
+				right = false;
+			}
+			if (transform.position.x < -200) {
+				left = false;
+				right = true;
+			}
+			if (right)
+				thisObject.transform.Translate (new Vector3 (1, 0, 0) * speed * Time.deltaTime);
+			if (left)
+				thisObject.transform.Translate (new Vector3 (-1, 0, 0) * speed * Time.deltaTime);
 
-
+		}
 		//Swipping = false; when the animation ends
 	}
 	void swipeToRight ()
 	{
 		//Swipping = true; when the animation starts
 		
-		
+
 		//Swipping = false; when the animation ends
 	}
 	void swipeToDown ()
