@@ -1,13 +1,9 @@
 using System;
 
-namespace AssemblyCSharp
+public enum MovementTYPE
 {
-	public enum MovementTYPE
-	{
-		LEFT = 0,
-		RIGHT,
-		UP,
-		DOWN
-	}
+	RIGHT = 0,
+	LEFT,
+	DOWN,
+	UP
 }
-

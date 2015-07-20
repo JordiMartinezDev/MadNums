@@ -37,6 +37,6 @@ public class NumberPiece
 	public int GetNum() { return pieceNum; }
 
 	// el operador no es correcto :(
-	//public static int operator + (NumberPiece other) {return pieceNum + other.GetNum(); }
+	//public static int operator + (NumberPiece other) { return pieceNum + other.GetNum(); }
 	
 }

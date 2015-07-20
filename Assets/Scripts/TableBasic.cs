@@ -20,7 +20,6 @@ public class TableBasic : MonoBehaviour
 		boardTable = new BoardTable ();
 
 		LoadLevel (1);
-		LoadLevel (2);
 	}
 
 	public void LoadLevel(int level)

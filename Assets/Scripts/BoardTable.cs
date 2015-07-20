@@ -49,6 +49,18 @@ public class BoardTable
 		nums [piece_1] = nums [piece_2];
 		nums [piece_2] = tmp;
 	}
+
+	public bool CheckMove(int index, MovementTYPE movType)
+	{
+		switch (movType)
+		{
+		case MovementTYPE.RIGHT: return (index % 4 !=  3 && !walls[index - (index/4)    ]);
+		case  MovementTYPE.LEFT: return (index % 4 !=  0 && !walls[index - (index/4) - 1]);
+		case  MovementTYPE.DOWN: return (     index < 12 && !walls[index + 12]);
+		case    MovementTYPE.UP: return (     index > 4  && !walls[index +  8]);
+		default: return true;
+		}
+	}
 	
 	public bool CheckWin()
 	{
@@ -104,7 +116,7 @@ public class BoardTable
 				{
 					returnValue += (walls[(i * 4) + j + 12]? "--" : "  ");
 					
-					if (j != 3 && i != 3)
+					if (j != 3)
 					{
 						returnValue += (unions[(i * 3) + j]? " · " : "   ");
 					}
@@ -116,7 +128,7 @@ public class BoardTable
 				{
 					returnValue += (walls[(i * 4) + j + 12]? "--" : "  ");
 					
-					if (j != 3 && i != 3)
+					if (j != 3)
 					{
 						returnValue += (unions[(i * 3) + j]? " · " : "   ");
 					}
