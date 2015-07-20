@@ -37,42 +37,42 @@ public class TableBasic : MonoBehaviour
 		if (tmp != null)
 		{
 			int[] numbers = new int[16];
+			bool[] walls = new bool[24];
+			bool[] unions = new bool[9];
 			
-			for (int i = 0; i < 4; i++)
+			for (int i = 0; i < 16; i++)
 			{
-				for (int j = 0; j < 4; j++)
+				switch (tmp [i])
 				{
-					switch (tmp [(i * 4) + j])
-					{
-					case '1':
-						numbers [(i * 4) + j] = 1;
-						break;
-					case '2':
-						numbers [(i * 4) + j] = 2;
-						break;
-					case '3':
-						numbers [(i * 4) + j] = 3;
-						break;
-					case '4':
-						numbers [(i * 4) + j] = 4;
-						break;
-					default:
-						numbers [(i * 4) + j] = 8;
-						break;
-					}
+				case '1':
+					numbers [i] = 1;
+					break;
+				case '2':
+					numbers [i] = 2;
+					break;
+				case '3':
+					numbers [i] = 3;
+					break;
+				case '4':
+					numbers [i] = 4;
+					break;
 				}
 			}
 
-			boardTable.SetNewTable (numbers);
+			for (int i = 0; i < 24; i++) { walls[i] = (tmp[i + 17] == '1'); }
+
+			for (int i = 0; i < 9; i++) { unions[i] = (tmp[i + 42] == '1'); }
+
+			boardTable.SetNewTable (numbers, walls, unions);
 		}
 		else
 		{
 			boardTable.SetTableToEmpty();
 		}
 
-		Debug.Log (boardTable);
-
 		reader.Close ();
+
+		Debug.Log (boardTable);
 	}
 }
 
