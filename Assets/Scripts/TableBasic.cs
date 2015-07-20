@@ -33,41 +33,34 @@ public class TableBasic : MonoBehaviour
 			tmp = reader.ReadLine();
 		}
 
-		if (tmp != null)
+		int[] numbers = new int[16];
+		bool[] walls = new bool[24];
+		bool[] unions = new bool[9];
+		
+		for (int i = 0; i < 16; i++)
 		{
-			int[] numbers = new int[16];
-			bool[] walls = new bool[24];
-			bool[] unions = new bool[9];
-			
-			for (int i = 0; i < 16; i++)
+			switch (tmp [i])
 			{
-				switch (tmp [i])
-				{
-				case '1':
-					numbers [i] = 1;
-					break;
-				case '2':
-					numbers [i] = 2;
-					break;
-				case '3':
-					numbers [i] = 3;
-					break;
-				case '4':
-					numbers [i] = 4;
-					break;
-				}
+			case '1':
+				numbers [i] = 1;
+				break;
+			case '2':
+				numbers [i] = 2;
+				break;
+			case '3':
+				numbers [i] = 3;
+				break;
+			case '4':
+				numbers [i] = 4;
+				break;
 			}
-
-			for (int i = 0; i < 24; i++) { walls[i] = (tmp[i + 17] == '1'); }
-
-			for (int i = 0; i < 9; i++) { unions[i] = (tmp[i + 42] == '1'); }
-
-			boardTable.SetNewTable (numbers, walls, unions);
 		}
-		else
-		{
-			boardTable.SetTableToEmpty();
-		}
+		
+		for (int i = 0; i < 24; i++) { walls[i] = (tmp[i + 17] == '1'); }
+		
+		for (int i = 0; i < 9; i++) { unions[i] = (tmp[i + 42] == '1'); }
+		
+		boardTable.SetNewTable (numbers, walls, unions);
 
 		reader.Close ();
 
