@@ -5,15 +5,21 @@ public class TouchInput : MonoBehaviour{
 
 	public Vector3 tapPosition;
 	public Vector3 tapDirection;
-
-
-
-
 	public float speed;
-	private bool swipping;
+
+	public bool swipping;
+	public bool moving;
 	private bool tapping;
 
+	MovementTYPE moveTo;
+	MovementTYPE movementDir;
 	GameObject[] Buttons;
+
+	BoxCollider2D first;
+	BoxCollider2D second;
+
+	Vector3 firstInitialPos; 
+	Vector3 secondInitialPos;
 
 	float[] ButtonsCenter;
 	float[] ButtonsLeft;
@@ -45,7 +51,7 @@ public class TouchInput : MonoBehaviour{
 	void Start()
 	{
 
-
+		moveTo = MovementTYPE.LEFT;
 		BoxCollider2D Button0Box;
 
 		Buttons = new GameObject[16];
@@ -81,13 +87,6 @@ public class TouchInput : MonoBehaviour{
 //			Debug.Log ("\n Button Finished");
 
 		}
-
-
-
-
-
-
-
 
 	}
 
@@ -135,27 +134,30 @@ public class TouchInput : MonoBehaviour{
 					if(tapDirection.x > 40)
 					{
 						//Debug.Log("Swipe Left");
-
+						moveTo = MovementTYPE.LEFT;
 						swipping = true;
-						swipeToLeft(tapPosition);
+						swipeTo(tapPosition);
 					}
 					if(tapDirection.x < -40)
 					{
 						//Debug.Log("Swipe Right");
+						moveTo = MovementTYPE.RIGHT;
 						swipping = true;
-						swipeToRight(tapPosition);
+						swipeTo(tapPosition);
 					}
 					if(tapDirection.y > 40)
 					{
 						//Debug.Log("Swipe Down");
+						moveTo = MovementTYPE.DOWN;
 						swipping = true;
-						swipeToDown(tapPosition);
+						swipeTo(tapPosition);
 					}
 					if(tapDirection.y < -40)
 					{
 						//Debug.Log("Swipe Up");
+						moveTo = MovementTYPE.UP;
 						swipping = true;
-						swipeToUp(tapPosition);
+						swipeTo(tapPosition);
 					}
 
 				}
@@ -166,24 +168,77 @@ public class TouchInput : MonoBehaviour{
 				break;
 			}
 
+		}
 
 
 
 
+		// Move Animation
+
+		if (moving == true) {
+			switch (movementDir) {
+			
+			case MovementTYPE.RIGHT:
+			
+				if (secondInitialPos.x > first.transform.position.x) {
+					Debug.Log ("MOVING RIGHT");
+					first.transform.Translate (new Vector3 (1, 0, 0) * speed * Time.deltaTime);
+					second.transform.Translate (new Vector3 (-1, 0, 0) * speed * Time.deltaTime);
+				
+				} else {
+				
+					moving = false;
+				}
+				break;
+			
+			case MovementTYPE.LEFT:
+			
+				if (secondInitialPos.x < first.transform.position.x) {
+					Debug.Log ("MOVING LEFT");
+					first.transform.Translate (new Vector3 (-1, 0, 0) * speed * Time.deltaTime);
+					second.transform.Translate (new Vector3 (1, 0, 0) * speed * Time.deltaTime);
+				
+				} else {
+					moving = false;
+				}
+				break;
+			
+			case MovementTYPE.DOWN:
+			
+				if (secondInitialPos.y < first.transform.position.y) {
+					Debug.Log ("MOVING DOWN");
+					first.transform.Translate (new Vector3 (0, -1, 0) * speed * Time.deltaTime);
+					second.transform.Translate (new Vector3 (0, 1, 0) * speed * Time.deltaTime);
+				
+				} else {
+				
+					moving = false;
+
+				}
+				break;
+			
+			case MovementTYPE.UP:
+			
+				if (secondInitialPos.y > first.transform.position.y) {
+					Debug.Log ("MOVING UP");
+					first.transform.Translate (new Vector3 (0, 1, 0) * speed * Time.deltaTime);
+					second.transform.Translate (new Vector3 (0, -1, 0) * speed * Time.deltaTime);
+				
+				} else {
+				
+					moving = false;
+				}
+			
+				break;
+			default:
+				break;
+			}
 		}
 	}
-
-	void swipeToLeft (Vector2 position)
+	
+	void swipeTo (Vector2 position)
 	{
 	
-
-//		Debug.Log (" Tap Position is : " + position);
-
-		// direction -> 1 -> left
-		// direction -> 2 -> right
-		// direction -> 3 -> down
-		// direction -> 4 -> up
-
 		//Swipping = true; when the animation starts
 		for (int i = 0; i < 16; i++) 
 		{
@@ -191,83 +246,41 @@ public class TouchInput : MonoBehaviour{
 			{
 				if( ButtonsUp[i] > position.y && ButtonsDown[i] < position.y )
 				{
-					Debug.Log ( " swipe LEFT button : " + i);
-					//gameObject.GetComponent<TouchInput>().moveThem(Buttons[i],i,1);
-				}
-			}
-		}
 
-		//Swipping = false; when the animation ends
-	}
-	void swipeToRight (Vector2 position)
-	{
 
-		// direction -> 1 -> left
-		// direction -> 2 -> right
-		// direction -> 3 -> down
-		// direction -> 4 -> up
+					if(i==0) // checkMove
+					{
 
-		//Swipping = true; when the animation starts
-		
-		for (int i = 0; i < 16; i++) 
-		{
-			if(( ButtonsLeft[i] < position.x ) && (ButtonsRight[i] > position.x ))
-			{
-				if( ButtonsUp[i] > position.y && ButtonsDown[i] < position.y )
-				{
-					Debug.Log ( " swipe RIGHT button : " + i);
+						//call tmpInt = ruben func 
+
+						moveThem ( Buttons[i],Buttons[i+1],moveTo,speed);
+
+					}
 
 				}
 			}
 		}
-		//Swipping = false; when the animation ends
-	}
-	void swipeToDown (Vector2 position)
-	{
-	
 
-		// direction -> 1 -> left
-		// direction -> 2 -> right
-		// direction -> 3 -> down
-		// direction -> 4 -> up
-
-		//Swipping = true; when the animation starts
-		for (int i = 0; i < 16; i++) 
-		{
-			if(( ButtonsLeft[i] < position.x ) && (ButtonsRight[i] > position.x ))
-			{
-				if( ButtonsUp[i] > position.y && ButtonsDown[i] < position.y )
-				{
-					Debug.Log ( " swipe DOWN button : " + i);
-				}
-			}
-		}
-		
-		//Swipping = false; when the animation ends
-	}
-	void swipeToUp (Vector2 position)
-	{
-
-		// direction -> 1 -> left
-		// direction -> 2 -> right
-		// direction -> 3 -> down
-		// direction -> 4 -> up
-
-		//Swipping = true; when the animation starts
-		for (int i = 0; i < 16; i++) 
-		{
-			if(( ButtonsLeft[i] < position.x ) && (ButtonsRight[i] > position.x ))
-			{
-				if( ButtonsUp[i] > position.y && ButtonsDown[i] < position.y )
-				{
-					Debug.Log ( " swipe UP button : " + i);
-				}
-			}
-		}
 		
 		//Swipping = false; when the animation ends
 	}
 
+	public void moveThem(GameObject firstGO,GameObject secondGO,MovementTYPE movementDirTmp,float movSpeedTmp) 
+	{
+		
+		Debug.Log (" TRYING TO MOVE ");
+		speed = movSpeedTmp;
+		first = firstGO.GetComponent<BoxCollider2D> ();
+		second = secondGO.GetComponent<BoxCollider2D>();
+		movementDir = movementDirTmp;
+		moving = true;
+		
+		firstInitialPos = firstGO.transform.position;
+		secondInitialPos = secondGO.transform.position;
+		
+		
+		
+	}
 
 	void findButtonsGameobject()
 	{
@@ -289,61 +302,7 @@ public class TouchInput : MonoBehaviour{
 		Buttons[15] = GameObject.Find("Button15");
 	}
 
-	void moveThem(GameObject first, int Button,int direction) 
-	{
 
-//		 direction -> 1 -> left
-//		 direction -> 2 -> right
-//		 direction -> 3 -> down
-//		 direction -> 4 -> up
-//		Vector2 firstInitialPos;
-//		Vector2 secondInitialPos;
-//		BoxCollider2D second;
-//		GameObject secondGO;
-//		secondGO = GameObject.Find("Button1");
-//		second = secondGO.GetComponent<BoxCollider2D>();
-//
-//		Debug.Log (" TRYING TO MOVE ");
-//
-//		firstInitialPos = first.transform.position;
-//		secondInitialPos = second.transform.position;
-//		switch (direction) 
-//		{
-//		case 1:
-//			while (secondInitialPos.x > first.transform.position.x)
-//			{
-//				first.transform.Translate (new Vector3(-1,0,0) * speed *  Time.deltaTime);
-//				second.transform.Translate (new Vector3(1,0,0) * speed *  Time.deltaTime);
-//			}
-//			break;
-//		case 2:
-//			while(secondInitialPos.x < first.transform.position.x)
-//			{
-//				first.transform.Translate (new Vector3(1,0,0) * speed *  Time.deltaTime);
-//				second.transform.Translate (new Vector3(-1,0,0) * speed *  Time.deltaTime);
-//			}
-//			break;
-//		case 3:
-//			while(secondInitialPos.y < first.transform.position.y)
-//			{
-//				first.transform.Translate (new Vector3(0,-1,0) * speed *  Time.deltaTime);
-//				second.transform.Translate (new Vector3(0,1,0) * speed *  Time.deltaTime);
-//			}
-//			break;
-//		case 4:
-//			while(secondInitialPos.y > first.transform.position.y)
-//			{
-//				first.transform.Translate (new Vector3(0,1,0) * speed *  Time.deltaTime);
-//				second.transform.Translate (new Vector3(0,-1,0) * speed *  Time.deltaTime);
-//			}
-//			break;
-//		default:
-//			break;
-//		}
-		
-		
-		
-	}
 }
 
 
