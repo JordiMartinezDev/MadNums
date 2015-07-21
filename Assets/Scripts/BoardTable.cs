@@ -1,23 +1,26 @@
 public class BoardTable
 {
-	private  int[] initialArrangement;
-	public   int[] positions;
-	public   int[] nums;
+	private  int[] initialArrangement; //1-4
+	public   int[] objectPositions; //0-15 object position
+	public   int[] objectLabels; //0-15 object names
+	public   int[] nums; //1-4
 	public  bool[] walls;
 	private bool[] unions;
 	
 	public BoardTable()
 	{
 		initialArrangement = new int[16];
-		positions = new int[16];
+		objectPositions = new int[16];
+		objectLabels = new int[16];
 		nums = new int[16];
 		walls = new bool[24];
 		unions = new bool[9];
 
 		for (int i = 0; i < 16; i++)
 		{
+			objectPositions[i] = 0;
 			initialArrangement[i] = 0;
-			positions[i] = 0;
+			objectLabels[i] = 0;
 			nums[i] = 0;
 		}
 		for (int i = 0; i < 24; i++) {  walls[i] = false; }
@@ -28,7 +31,8 @@ public class BoardTable
 	{
 		for (int i = 0; i < 16; i++)
 		{
-			positions[i] = i;
+			objectPositions[i] = i;
+			objectLabels[i] = i;
 			nums[i] = numbers[i];
 			initialArrangement[i] = numbers[i];
 		}
@@ -41,34 +45,53 @@ public class BoardTable
 	{
 		for (int i = 0; i < 16; i++)
 		{
-			positions[i] = i;
+			objectPositions[i] = i;
+			objectLabels[i] = i;
 			nums[i] = initialArrangement[i];
 		}
 	}
 	
 	public void SWAP(int piece_1, int piece_2)
 	{
-		int tmp = nums [piece_1];
+		int tmp;
+
+		tmp = nums [piece_1];
 		nums [piece_1] = nums [piece_2];
 		nums [piece_2] = tmp;
 
-		tmp = positions [piece_1];
-		positions [piece_1] = positions [piece_2];
-		positions [piece_2] = tmp;
+		tmp = objectPositions [piece_1];
+		objectPositions [piece_1] = objectPositions [piece_2];
+		objectPositions [piece_2] = tmp;
+
+		tmp = objectLabels [objectPositions [piece_1]];
+		objectLabels [objectPositions [piece_1]] = objectLabels [objectPositions [piece_2]];
+		objectLabels [objectPositions [piece_2]] = tmp;
 	}
 
-	public bool CheckMove(int position, MovementTYPE movType)
+	public int CheckMove(int objectName, MovementTYPE movType)
 	{
-		int index = positions [position];
+		int index = objectPositions [objectName];
 
 		switch (movType)
 		{
-		case MovementTYPE.RIGHT: return (index % 4 !=  3 && !walls[index - (index/4)    ]);
-		case  MovementTYPE.LEFT: return (index % 4 !=  0 && !walls[index - (index/4) - 1]);
-		case  MovementTYPE.DOWN: return (     index < 12 && !walls[index + 12]);
-		case    MovementTYPE.UP: return (     index > 4  && !walls[index +  8]);
-		                default: return true;
+		case MovementTYPE.RIGHT:
+			if (index % 4 !=  3 && !walls[index - (index / 4)]) { return objectLabels[index + 1]; }
+			break;
+
+		case  MovementTYPE.LEFT:
+			if (index % 4 !=  0 && !walls[index - (index / 4) - 1]) { return objectLabels[index - 1]; }
+			break;
+
+		case  MovementTYPE.DOWN:
+			if (index < 12 && !walls[index + 12]) { return objectLabels[index + 4]; }
+			break;
+
+		case    MovementTYPE.UP:
+			if (index > 4  && !walls[index +  8]) { return objectLabels[index - 4]; }
+			break;
 		}
+
+		return 16;
 	}
 
 	public bool CheckWin()
@@ -93,9 +116,9 @@ public class BoardTable
 		{
 			for (int j = 0; j < 4; j++)
 			{
-				if (positions[(i * 4) + j] < 10) { returnValue += "  "; }
+				if (objectLabels[(i * 4) + j] < 10) { returnValue += "  "; }
 
-				returnValue += positions[(i * 4) + j] + " ";
+				returnValue += objectLabels[(i * 4) + j] + " ";
 
 				if (j != 3)
 				{
