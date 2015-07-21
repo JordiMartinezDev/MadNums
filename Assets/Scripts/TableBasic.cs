@@ -8,18 +8,16 @@ using System.IO;
 using System.Linq;
 
 
-public class TableBasic : MonoBehaviour
+public class TableBasic 
 {
 	private StreamReader reader;
 
 	public BoardTable boardTable;
 
 
-	void Start()
+	public TableBasic()
 	{
 		boardTable = new BoardTable ();
-
-		LoadLevel (1);
 	}
 
 	public void LoadLevel(int level)

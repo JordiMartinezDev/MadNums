@@ -27,6 +27,8 @@ public class TouchInput : MonoBehaviour{
 	float[] ButtonsUp;
 	float[] ButtonsDown;
 
+	TableBasic table;
+
 
 
 	void Awake () 
@@ -87,6 +89,9 @@ public class TouchInput : MonoBehaviour{
 //			Debug.Log ("\n Button Finished");
 
 		}
+
+		table = new TableBasic ();
+		table.LoadLevel (1);
 
 	}
 
@@ -181,7 +186,7 @@ public class TouchInput : MonoBehaviour{
 			case MovementTYPE.RIGHT:
 			
 				if (secondInitialPos.x > first.transform.position.x) {
-					Debug.Log ("MOVING RIGHT");
+
 					first.transform.Translate (new Vector3 (1, 0, 0) * speed * Time.deltaTime);
 					second.transform.Translate (new Vector3 (-1, 0, 0) * speed * Time.deltaTime);
 				
@@ -194,7 +199,7 @@ public class TouchInput : MonoBehaviour{
 			case MovementTYPE.LEFT:
 			
 				if (secondInitialPos.x < first.transform.position.x) {
-					Debug.Log ("MOVING LEFT");
+
 					first.transform.Translate (new Vector3 (-1, 0, 0) * speed * Time.deltaTime);
 					second.transform.Translate (new Vector3 (1, 0, 0) * speed * Time.deltaTime);
 				
@@ -206,7 +211,7 @@ public class TouchInput : MonoBehaviour{
 			case MovementTYPE.DOWN:
 			
 				if (secondInitialPos.y < first.transform.position.y) {
-					Debug.Log ("MOVING DOWN");
+			
 					first.transform.Translate (new Vector3 (0, -1, 0) * speed * Time.deltaTime);
 					second.transform.Translate (new Vector3 (0, 1, 0) * speed * Time.deltaTime);
 				
@@ -220,7 +225,7 @@ public class TouchInput : MonoBehaviour{
 			case MovementTYPE.UP:
 			
 				if (secondInitialPos.y > first.transform.position.y) {
-					Debug.Log ("MOVING UP");
+				
 					first.transform.Translate (new Vector3 (0, 1, 0) * speed * Time.deltaTime);
 					second.transform.Translate (new Vector3 (0, -1, 0) * speed * Time.deltaTime);
 				
@@ -247,14 +252,15 @@ public class TouchInput : MonoBehaviour{
 				if( ButtonsUp[i] > position.y && ButtonsDown[i] < position.y )
 				{
 
-
-					if(i==0) // checkMove
+					int tmp = table.boardTable.CheckMove(i,moveTo);
+					if(tmp != 16) // checkMove
 					{
 
-						//call tmpInt = ruben func 
 
-						moveThem ( Buttons[i],Buttons[i+1],moveTo,speed);
+						table.boardTable.SWAP(i,tmp);
 
+						moveThem ( Buttons[i],Buttons[tmp],moveTo,speed);
+						Debug.Log(table.boardTable);
 					}
 
 				}
@@ -268,7 +274,7 @@ public class TouchInput : MonoBehaviour{
 	public void moveThem(GameObject firstGO,GameObject secondGO,MovementTYPE movementDirTmp,float movSpeedTmp) 
 	{
 		
-		Debug.Log (" TRYING TO MOVE ");
+	
 		speed = movSpeedTmp;
 		first = firstGO.GetComponent<BoxCollider2D> ();
 		second = secondGO.GetComponent<BoxCollider2D>();
