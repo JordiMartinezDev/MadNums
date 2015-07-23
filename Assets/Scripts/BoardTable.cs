@@ -10,8 +10,8 @@ using System.Linq;
 public class BoardTable
 {
 	private  int[] initialArrangement; //1-4
-	public   int[] objectPositions; //0-15 object position
-	public   int[] objectLabels; //0-15 object names
+	public   int[] objectPositions; //0-15  name -> position
+	public   int[] objectLabels; //0-15 position -> names
 	public   int[] nums; //1-4
 	public  bool[] walls;
 	private bool[] unions;
@@ -27,9 +27,9 @@ public class BoardTable
 
 		for (int i = 0; i < 16; i++)
 		{
-			objectPositions[i] = 0;
 			initialArrangement[i] = 0;
-			objectLabels[i] = 0;
+			objectPositions[i] = i;
+			objectLabels[i] = i;
 			nums[i] = 0;
 		}
 		for (int i = 0; i < 24; i++) {  walls[i] = false; }
