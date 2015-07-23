@@ -99,9 +99,6 @@ public class TouchInput : MonoBehaviour{
 	{
 		if (Input.touchCount > 0) 
 		{
-			//Debug.Log("Touch Detected");
-			Vector2 deltaPos = Input.GetTouch(0).deltaPosition;
-
 			switch ( Input.GetTouch(0).phase)
 			{
 
@@ -191,6 +188,11 @@ public class TouchInput : MonoBehaviour{
 					second.transform.Translate (new Vector3 (-1, 0, 0) * speed * Time.deltaTime);
 				
 				} else {
+
+					if(moving == true ) 
+					{
+						setFinalPos();
+					}
 				
 					moving = false;
 				}
@@ -204,6 +206,11 @@ public class TouchInput : MonoBehaviour{
 					second.transform.Translate (new Vector3 (1, 0, 0) * speed * Time.deltaTime);
 				
 				} else {
+
+					if(moving == true ) 
+					{
+						setFinalPos();
+					}
 					moving = false;
 				}
 				break;
@@ -216,6 +223,11 @@ public class TouchInput : MonoBehaviour{
 					second.transform.Translate (new Vector3 (0, 1, 0) * speed * Time.deltaTime);
 				
 				} else {
+
+					if(moving == true ) 
+					{
+						setFinalPos();
+					}
 				
 					moving = false;
 
@@ -230,7 +242,12 @@ public class TouchInput : MonoBehaviour{
 					second.transform.Translate (new Vector3 (0, -1, 0) * speed * Time.deltaTime);
 				
 				} else {
-				
+
+					if(moving == true ) 
+					{
+						setFinalPos();
+					}
+
 					moving = false;
 				}
 			
@@ -308,6 +325,11 @@ public class TouchInput : MonoBehaviour{
 		Buttons[15] = GameObject.Find("Button15");
 	}
 
+	void setFinalPos()
+	{
+		first.transform.position = new Vector3 ( secondInitialPos.x, secondInitialPos.y,secondInitialPos.z);
+		second.transform.position = new Vector3 (firstInitialPos.x,firstInitialPos.y,firstInitialPos.z);
+	}
 
 }
 
