@@ -28,8 +28,8 @@ public class BoardTable
 		for (int i = 0; i < 16; i++)
 		{
 			initialArrangement[i] = 0;
-			objectPositions[i] = i;
-			objectLabels[i] = i;
+			objectPositions[i] = 0;
+			objectLabels[i] = 0;
 			nums[i] = 0;
 		}
 		for (int i = 0; i < 24; i++) {  walls[i] = false; }
@@ -84,19 +84,19 @@ public class BoardTable
 		switch (movType)
 		{
 		case MovementTYPE.RIGHT:
-			if (index % 4 !=  3 && !walls[index - (index / 4)]) { return objectLabels[index + 1]; }
+			if (index % 4 !=  3 && !walls[index - (index / 4)]) { return objectLabels[objectPositions[index + 1]]; }
 			break;
 
 		case  MovementTYPE.LEFT:
-			if (index % 4 !=  0 && !walls[index - (index / 4) - 1]) { return objectLabels[index - 1]; }
+			if (index % 4 !=  0 && !walls[index - (index / 4) - 1]) { return objectLabels[objectPositions[index - 1]]; }
 			break;
 
 		case  MovementTYPE.DOWN:
-			if (index < 12 && !walls[index + 12]) { return objectLabels[index + 4]; }
+			if (index < 12 && !walls[index + 12]) { return objectLabels[objectPositions[index + 4]]; }
 			break;
 
 		case    MovementTYPE.UP:
-			if (index > 4  && !walls[index +  8]) { return objectLabels[index - 4]; }
+			if (index > 4  && !walls[index +  8]) { return objectLabels[objectPositions[index - 4]]; }
 			break;
 		}
 
@@ -139,6 +139,9 @@ public class BoardTable
 			case '3': nums [i] = 3; break;
 			case '4': nums [i] = 4; break;
 			}
+
+			objectPositions[i] = i;
+			objectLabels[i] = i;
 		}
 		
 		for (int i = 0; i < 24; i++) { walls[i] = (tmp[i + 17] == '1'); }
