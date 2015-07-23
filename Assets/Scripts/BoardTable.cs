@@ -1,3 +1,12 @@
+using UnityEngine;
+using System.Collections;
+
+using System;
+using System.Text;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+
 public class BoardTable
 {
 	private  int[] initialArrangement; //1-4
@@ -106,6 +115,37 @@ public class BoardTable
 		}
 		
 		return true;
+	}
+
+	public void LoadLevel(int level)
+	{
+		StreamReader reader = new StreamReader ("Assets/LevelArrangement/LevelArrangement.txt");
+		
+		string tmp = "";
+		
+		for (int i = 0; i < level; i++)
+		{
+			tmp = reader.ReadLine();
+		}
+		
+		for (int i = 0; i < 16; i++)
+		{
+			switch (tmp [i])
+			{
+			case '1': nums [i] = 1; break;
+			case '2': nums [i] = 2; break;
+			case '3': nums [i] = 3; break;
+			case '4': nums [i] = 4; break;
+			}
+		}
+		
+		for (int i = 0; i < 24; i++) { walls[i] = (tmp[i + 17] == '1'); }
+		
+		for (int i = 0; i < 9; i++) { unions[i] = (tmp[i + 42] == '1'); }
+		
+		reader.Close ();
+		
+		Debug.Log (this);
 	}
 	
 	public override string ToString()
