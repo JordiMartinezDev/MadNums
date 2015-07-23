@@ -27,7 +27,7 @@ public class TouchInput : MonoBehaviour{
 	float[] ButtonsUp;
 	float[] ButtonsDown;
 
-	TableBasic table;
+	BoardTable table;
 
 
 
@@ -90,7 +90,7 @@ public class TouchInput : MonoBehaviour{
 
 		}
 
-		table = new TableBasic ();
+		table = new BoardTable ();
 		table.LoadLevel (1);
 
 	}
@@ -269,15 +269,15 @@ public class TouchInput : MonoBehaviour{
 				if( ButtonsUp[i] > position.y && ButtonsDown[i] < position.y )
 				{
 
-					int tmp = table.boardTable.CheckMove(i,moveTo);
+					int tmp = table.CheckMove(i,moveTo);
 					if(tmp != 16) // checkMove
 					{
 
 
-						table.boardTable.SWAP(i,tmp);
+						table.SWAP(i,tmp);
 
 						moveThem ( Buttons[i],Buttons[tmp],moveTo,speed);
-						Debug.Log(table.boardTable);
+						Debug.Log(table);
 					}
 
 				}

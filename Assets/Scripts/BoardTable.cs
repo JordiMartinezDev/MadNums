@@ -119,14 +119,16 @@ public class BoardTable
 
 	public void LoadLevel(int level)
 	{
-		StreamReader reader = new StreamReader ("Assets/LevelArrangement/LevelArrangement.txt");
-		
 		string tmp = "";
+
+		StreamReader reader = new StreamReader ("Assets/LevelArrangement/LevelArrangement.txt");
 		
 		for (int i = 0; i < level; i++)
 		{
 			tmp = reader.ReadLine();
 		}
+
+		reader.Close ();
 		
 		for (int i = 0; i < 16; i++)
 		{
@@ -142,8 +144,6 @@ public class BoardTable
 		for (int i = 0; i < 24; i++) { walls[i] = (tmp[i + 17] == '1'); }
 		
 		for (int i = 0; i < 9; i++) { unions[i] = (tmp[i + 42] == '1'); }
-		
-		reader.Close ();
 		
 		Debug.Log (this);
 	}
