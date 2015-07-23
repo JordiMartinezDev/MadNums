@@ -6,6 +6,10 @@ public class TouchInput : MonoBehaviour{
 	public Vector3 tapPosition;
 	public Vector3 tapDirection;
 	public float speed;
+	public Sprite num1;
+	public Sprite num2;
+	public Sprite num3;
+	public Sprite num4;
 
 	public bool swipping;
 	public bool moving;
@@ -92,6 +96,7 @@ public class TouchInput : MonoBehaviour{
 
 		table = new BoardTable ();
 		table.LoadLevel (1);
+		setSpritesOfLevel ();
 
 	}
 
@@ -329,6 +334,24 @@ public class TouchInput : MonoBehaviour{
 	{
 		first.transform.position = new Vector3 ( secondInitialPos.x, secondInitialPos.y,secondInitialPos.z);
 		second.transform.position = new Vector3 (firstInitialPos.x,firstInitialPos.y,firstInitialPos.z);
+	}
+
+
+	void setSpritesOfLevel()
+	{
+		for (int i = 0; i < 16; i++)
+		{
+			if(table.nums[i] == 1)
+				Buttons[i].GetComponent<SpriteRenderer>().sprite = num1;
+			if(table.nums[i] == 2)
+				Buttons[i].GetComponent<SpriteRenderer>().sprite = num2;
+			if(table.nums[i] == 3)
+				Buttons[i].GetComponent<SpriteRenderer>().sprite = num3;
+			if(table.nums[i] == 4)
+				Buttons[i].GetComponent<SpriteRenderer>().sprite = num4;
+
+		}
+
 	}
 
 }
