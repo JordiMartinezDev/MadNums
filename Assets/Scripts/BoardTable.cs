@@ -96,7 +96,7 @@ public class BoardTable
 			break;
 
 		case    MovementTYPE.UP:
-			if (index > 4  && !walls[index +  8]) { return objectLabels[index - 4]; }
+			if (index > 3  && !walls[index +  8]) { return objectLabels[index - 4]; }
 			break;
 		}
 
