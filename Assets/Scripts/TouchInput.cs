@@ -273,18 +273,20 @@ public class TouchInput : MonoBehaviour{
 			{
 				if( ButtonsUp[i] > position.y && ButtonsDown[i] < position.y )
 				{
+					i = table.objectLabels[i];
 
 					int tmp = table.CheckMove(i,moveTo);
+
 					if(tmp != 16) // checkMove
 					{
-
-
 						table.SWAP(i,tmp);
 
 						moveThem ( Buttons[i],Buttons[tmp],moveTo,speed);
+						Debug.Log("i = " + i + ", tmp = " + tmp);// + ", pos.x = " + position.x + ", pos.y = " + position.y);
 						Debug.Log(table);
 					}
 
+					break;
 				}
 			}
 		}

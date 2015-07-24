@@ -84,19 +84,19 @@ public class BoardTable
 		switch (movType)
 		{
 		case MovementTYPE.RIGHT:
-			if (index % 4 !=  3 && !walls[index - (index / 4)]) { return objectLabels[objectPositions[index + 1]]; }
+			if (index % 4 !=  3 && !walls[index - (index / 4)]) { return objectLabels[index + 1]; }
 			break;
 
 		case  MovementTYPE.LEFT:
-			if (index % 4 !=  0 && !walls[index - (index / 4) - 1]) { return objectLabels[objectPositions[index - 1]]; }
+			if (index % 4 !=  0 && !walls[index - (index / 4) - 1]) { return objectLabels[index - 1]; }
 			break;
 
 		case  MovementTYPE.DOWN:
-			if (index < 12 && !walls[index + 12]) { return objectLabels[objectPositions[index + 4]]; }
+			if (index < 12 && !walls[index + 12]) { return objectLabels[index + 4]; }
 			break;
 
 		case    MovementTYPE.UP:
-			if (index > 4  && !walls[index +  8]) { return objectLabels[objectPositions[index - 4]]; }
+			if (index > 4  && !walls[index +  8]) { return objectLabels[index - 4]; }
 			break;
 		}
 
